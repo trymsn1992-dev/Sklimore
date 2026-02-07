@@ -59,7 +59,7 @@ export default function Home() {
       <main className="min-h-screen flex flex-col items-center justify-center p-8 bg-white">
         <div className="w-full max-w-md space-y-8">
           <div className="text-center">
-            <h1 className="text-4xl font-bold text-blue-900 mb-2">Skimore Challenge ⛷️</h1>
+            <h1 className="text-4xl font-bold text-blue-900 mb-2">Sklimore Challenge ⛷️</h1>
             <p className="text-gray-500">Konkurrer med venner og track sesongen din.</p>
           </div>
           <Login />
