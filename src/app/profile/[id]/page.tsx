@@ -12,8 +12,14 @@ import {
     UserMinus,
     ArrowLeft,
     MapPin,
-    History
+    History,
+    Trophy,
+    Mountain,
+    Rocket,
+    Terminal,
+    Lock
 } from "lucide-react";
+import { ACHIEVEMENTS, getUnlockedAchievements, getNextAchievement } from "@/lib/achievements";
 
 interface UserProfile {
     id: string;
@@ -131,8 +137,8 @@ export default function ProfilePage() {
                     <button
                         onClick={toggleFriend}
                         className={`w-full py-3 rounded-xl font-bold flex items-center justify-center gap-2 transition-colors ${isFriend
-                                ? "bg-gray-100 text-slate-600 hover:bg-gray-200"
-                                : "bg-[#009CEE] text-white hover:bg-[#008bd5] shadow-lg shadow-blue-100" // Custom Skimore Blueish
+                            ? "bg-gray-100 text-slate-600 hover:bg-gray-200"
+                            : "bg-[#009CEE] text-white hover:bg-[#008bd5] shadow-lg shadow-blue-100" // Custom Skimore Blueish
                             }`}
                     >
                         {isFriend ? <><UserMinus size={20} /> Fjern venn</> : <><UserPlus size={20} /> Legg til venn</>}
@@ -171,6 +177,56 @@ export default function ProfilePage() {
                         {profile.meters > 1000 ? `${(profile.meters / 1000).toFixed(0)} 000` : profile.meters}
                     </span>
                     <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">METER</span>
+                </div>
+            </div>
+
+            {/* Achievements Section */}
+            <div className="mb-6">
+                <h3 className="text-lg font-bold text-slate-800 mb-4 px-2">Bragder</h3>
+                <div className="grid grid-cols-1 gap-3">
+                    {ACHIEVEMENTS.map((achievement) => {
+                        const isUnlocked = profile.meters >= achievement.threshold;
+                        const Icon = {
+                            Mountain: Mountain,
+                            Trophy: Trophy,
+                            Rocket: Rocket,
+                            Terminal: Terminal
+                        }[achievement.iconName];
+
+                        return (
+                            <div
+                                key={achievement.id}
+                                className={`flex items-center gap-4 p-4 rounded-2xl border ${isUnlocked
+                                        ? "bg-white border-blue-100 shadow-sm"
+                                        : "bg-gray-50 border-gray-100 opacity-60"
+                                    }`}
+                            >
+                                <div className={`p-3 rounded-full ${isUnlocked ? "bg-blue-100 text-blue-600" : "bg-gray-200 text-gray-400"}`}>
+                                    {isUnlocked ? <Icon size={24} /> : <Lock size={24} />}
+                                </div>
+                                <div className="flex-1">
+                                    <div className="flex justify-between items-center mb-1">
+                                        <h4 className={`font-bold ${isUnlocked ? "text-slate-900" : "text-slate-500"}`}>
+                                            {achievement.title}
+                                        </h4>
+                                        {isUnlocked && <span className="text-xs bg-green-100 text-green-700 px-2 py-1 rounded-full font-bold">LÅST OPP</span>}
+                                    </div>
+                                    <p className="text-xs text-slate-500">{achievement.description}</p>
+                                    {!isUnlocked && (
+                                        <div className="mt-2 w-full bg-gray-200 rounded-full h-1.5">
+                                            <div
+                                                className="bg-blue-400 h-1.5 rounded-full"
+                                                style={{ width: `${Math.min(100, (profile.meters / achievement.threshold) * 100)}%` }}
+                                            ></div>
+                                            <p className="text-[10px] text-right text-slate-400 mt-1">
+                                                {profile.meters} / {achievement.threshold}m
+                                            </p>
+                                        </div>
+                                    )}
+                                </div>
+                            </div>
+                        );
+                    })}
                 </div>
             </div>
 
