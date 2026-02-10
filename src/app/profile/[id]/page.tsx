@@ -180,6 +180,22 @@ export default function ProfilePage() {
                 </div>
             </div>
 
+            {/* Average Stats */}
+            <div className="grid grid-cols-2 gap-4 mb-6">
+                <div className="bg-blue-50 p-4 rounded-3xl shadow-sm flex flex-col items-center justify-center text-center">
+                    <span className="text-xl font-bold text-slate-900">
+                        {profile.days > 0 ? (profile.trips / profile.days).toFixed(1) : 0}
+                    </span>
+                    <span className="text-[10px] font-bold text-slate-500 uppercase tracking-widest mt-1">SNITT TURER/DAG</span>
+                </div>
+                <div className="bg-blue-50 p-4 rounded-3xl shadow-sm flex flex-col items-center justify-center text-center">
+                    <span className="text-xl font-bold text-slate-900">
+                        {profile.days > 0 ? (profile.meters / profile.days).toFixed(0) : 0}m
+                    </span>
+                    <span className="text-[10px] font-bold text-slate-500 uppercase tracking-widest mt-1">SNITT HØYDE/DAG</span>
+                </div>
+            </div>
+
             {/* Achievements Section */}
             <div className="mb-6">
                 <h3 className="text-lg font-bold text-slate-800 mb-4 px-2">Bragder</h3>
@@ -197,8 +213,8 @@ export default function ProfilePage() {
                             <div
                                 key={achievement.id}
                                 className={`flex items-center gap-4 p-4 rounded-2xl border ${isUnlocked
-                                        ? "bg-white border-blue-100 shadow-sm"
-                                        : "bg-gray-50 border-gray-100 opacity-60"
+                                    ? "bg-white border-blue-100 shadow-sm"
+                                    : "bg-gray-50 border-gray-100 opacity-60"
                                     }`}
                             >
                                 <div className={`p-3 rounded-full ${isUnlocked ? "bg-blue-100 text-blue-600" : "bg-gray-200 text-gray-400"}`}>
